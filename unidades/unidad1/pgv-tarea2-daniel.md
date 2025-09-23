@@ -50,48 +50,50 @@ systemd 255 (255.4-1ubuntu8.6)
 
 1) ¿Qué es **systemd** y en qué se diferencia de SysV init?  
 
-**Respuesta:**  SysV init se basa en un diseño secuencial, donde los servicios se inician uno por uno en un orden predefinido utilizando scripts mientras que Gestiona diferentes tipos de recursos (servicios, sockets, dispositivos, puntos de montaje, etc.) mediante "unidades", definidas en archivos de configuración (.service, .socket, etc.) 
+**Respuesta:**  __SysV init__ se basa en un diseño secuencial, donde los servicios se inician uno por uno en un orden predefinido utilizando scripts mientras que __systemd__ gestiona diferentes tipos de recursos (servicios, sockets, dispositivos, puntos de montaje, etc.) mediante "unidades", definidas en archivos de configuración (.service, .socket, etc.) 
 
 <details>
     <summary>Fuentes:</summary>
-    
+    https://www.maxizamorano.com/entrada/19/proceso-de-arranque-en-linux-systemd-vs-sysv-init
 </details>
 
 
 2) **Servicio** vs **proceso** (ejemplos).  
 
-**Respuesta:**  
+**Respuesta:** Un proceso es un programa en ejecución como un navegador, editor de texto o un videojuego. 
+Un servicio es un programa que se ejecuta en segundo plano, sin necesidad de una interfaz gráfica, y que proporciona funcionalidad continua como una red, una base de datos o un servicio de impresión.
 
 <details>
     <summary>Fuentes:</summary>
-    
+    https://developer.android.com/develop/background-work/services?hl=es-419#:~:text=Un%20Service%20es%20un%20componente,usuario%20cambie%20a%20otra%20aplicaci%C3%B3n.
 </details>
 
 3) ¿Qué son los **cgroups** y para qué sirven?  
 
-**Respuesta:**  
+**Respuesta:**  Los cgroups (grupos de control) son una característica del kernel de Linux que permite a los administradores de sistemas agrupar procesos para controlar de forma granular el uso de recursos del sistema como la CPU, la memoria y el disco, priorizando, aislando, contabilizando y limitando los recursos.
 
 <details>
     <summary>Fuentes:</summary>
-    
+    https://sergiobelkin.com/posts/que-son-los-cgroups-y-para-que-sirven/
 </details>
 
 4) ¿Qué es un **unit file** y tipos (`service`, `timer`, `socket`, `target`)?  
 
-**Respuesta:**  
+**Respuesta:**  Un archivo unit es un fichero de texto que describe un recurso o un servicio en un sistema que utiliza systemd, un sistema de inicio y gestor de procesos para Linux. Define cómo systemd debe manejar distintos tipos de elementos, como los demonios (.service), los eventos programados (.timer), las conexiones de red (.socket) y las agrupaciones lógicas (.target), permitiendo la gestión centralizada de los servicios del sistema.
 
 <details>
     <summary>Fuentes:</summary>
-    
+    https://documentation.suse.com/es-es/sle-micro/6.0/html/Micro-systemd-basics/index.html
 </details>
 
 5) ¿Qué hace `journalctl` y cómo ver logs **de usuario**?  
 
-**Respuesta:**  
+**Respuesta:**  journalctl es una utilidad para ver y gestionar los registros (logs) del sistema en distribuciones Linux que utilizan systemd, como Ubuntu y Fedora. Permite filtrar, visualizar, y analizar la actividad del sistema y los servicios para la solución de problemas. Para ver logs de usuario, se puede usar el filtro _UID=<usuario_uid> o --user para ver los logs de un servicio específico del usuario. 
+
 
 <details>
     <summary>Fuentes:</summary>
-    
+    https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs-es
 </details>
 
 ---
@@ -109,26 +111,33 @@ echo "PID=$$  PPID=$PPID"
 ```
 **Salida:**
 
-```text
+```bash
+PID=18808  PPID=12977
 
 ```
 
 **Pregunta:** ¿Qué proceso es el padre (PPID) de tu shell ahora?  
 
-**Respuesta:**
+**Respuesta:** 
+
+```bash
+    PID TTY      STAT   TIME COMMAND
+  12977 ?        Ssl    0:01 /usr/libexec/gnome-terminal-server
+
+```
 
 ---
 
 **12.** PID del `systemd --user` (manager de usuario) y explicación.
 
 ```bash
-pidof systemd --user || pgrep -u "$USER" -x systemd
+pidof systemd || pgrep -u "$USER" -x systemd
 ```
 
 **Salida:**
 
-```text
-
+```bash
+3325
 ```
 **Pregunta:** ¿Qué hace el *user manager* de systemd para tu sesión?  
 
@@ -171,6 +180,16 @@ systemctl --user status fecha-log.service --no-pager -l | sed -n '1,10p'
 **Salida (pega un extracto):**
 
 ```text
+× fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log
+     Loaded: loaded (/home/dam/.config/systemd/user/fecha-log.service; static)
+     Active: failed (Result: exit-code) since Tue 2025-09-23 18:26:55 WEST; 6s ago
+   Duration: 1ms
+    Process: 36250 ExecStart=/home/dam/dam/bin/fecha_log.sh (code=exited, status=203/EXEC)
+   Main PID: 36250 (code=exited, status=203/EXEC)
+        CPU: 1ms
+
+sep 23 18:26:55 a108pc01 systemd[3325]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
+sep 23 18:26:55 a108pc01 (a_log.sh)[36250]: fecha-log.service: Failed to execute /home/dam/dam/bin/fecha_log.sh: Exec format error
 
 ```
 **Pregunta:** ¿Se creó/actualizó `~/dam/logs/fecha.log`? Muestra las últimas líneas:
@@ -252,12 +271,36 @@ lsof -i -P -n | grep LISTEN || ss -lntp
 **Salida:**
 
 ```text
+State                       Recv-Q                      Send-Q                                            Local Address:Port                                              Peer Address:Port                      Process                      
+LISTEN                      0                           4096                                                 127.0.0.54:53                                                     0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:38207                                                  0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                  127.0.0.1:631                                                    0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:8000                                                   0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:33847                                                  0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:49499                                                  0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:111                                                    0.0.0.0:*                                                      
+LISTEN                      0                           64                                                      0.0.0.0:2049                                                   0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                    0.0.0.0:51283                                                  0.0.0.0:*                                                      
+LISTEN                      0                           4096                                              127.0.0.53%lo:53                                                     0.0.0.0:*                                                      
+LISTEN                      0                           64                                                      0.0.0.0:41455                                                  0.0.0.0:*                                                      
+LISTEN                      0                           32                                                192.168.122.1:53                                                     0.0.0.0:*                                                      
+LISTEN                      0                           4096                                                      [::1]:631                                                       [::]:*                                                      
+LISTEN                      0                           64                                                         [::]:37503                                                     [::]:*                                                      
+LISTEN                      0                           4096                                                       [::]:8000                                                      [::]:*                                                      
+LISTEN                      0                           4096                                                       [::]:39597                                                     [::]:*                                                      
+LISTEN                      0                           4096                                                       [::]:39011                                                     [::]:*                                                      
+LISTEN                      0                           4096                                                          *:22                                                           *:*                                                      
+LISTEN                      0                           4096                                                       [::]:111                                                       [::]:*                                                      
+LISTEN                      0                           511                                                           *:80                                                           *:*                                                      
+LISTEN                      0                           4096                                                       [::]:36417                                                     [::]:*                                                      
+LISTEN                      0                           64                                                         [::]:2049                                                      [::]:*                                                      
+LISTEN                      0                           4096                                                          *:9100                                                         *:*                                                      
+LISTEN                      0                           4096                                                       [::]:43147                                                     [::]:*                                                      
 
 ```
 **Pregunta:** ¿Qué procesos *tuyos* están escuchando? (si no hay, explica por qué)  
 
-**Respuesta:**
-
+**Respuesta:** TIME COMMAND.
 ---
 
 **18.** Ejecuta un proceso bajo **cgroup de usuario** con límite de memoria.
@@ -270,7 +313,7 @@ ps -eo pid,ppid,cmd,stat | grep "[s]leep 200"
 **Salida:**
 
 ```text
-
+Running as unit: run-rd1609e8cec8a45ee86aad7fa24512092.scope; invocation ID: 59195637049d41b6844d99dc82ee410a
 ```
 **Pregunta:** ¿Qué ventaja tiene lanzar con `systemd-run --user` respecto a ejecutarlo “a pelo”?  
 
