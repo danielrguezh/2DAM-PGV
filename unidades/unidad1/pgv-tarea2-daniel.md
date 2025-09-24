@@ -43,7 +43,7 @@ systemd 255 (255.4-1ubuntu8.6)
 ```text
 
 ```
-
+El primer comando me dice que estoy usando systemd en la versión 255, el segundo comando confirma que el gestor de usuario está encendido y funcionando de manera óptima por lo que tengo todo listo para poder crear y manejar mis propios servicios como usuario, sin necesidad de ser administrador. 
 ---
 
 ## Bloque 1 — Conceptos (breve + fuentes)
@@ -141,7 +141,7 @@ pidof systemd || pgrep -u "$USER" -x systemd
 ```
 **Pregunta:** ¿Qué hace el *user manager* de systemd para tu sesión?  
 
-**Respuesta:**
+**Respuesta:** El __user manager__ de systemd (PID=2584) gestiona los servicios y unidades específicas para mi usuario, permitiendo iniciar, detener y supervisar procesos sin necesidad de privilegios de root.
 
 ---
 
@@ -180,17 +180,11 @@ systemctl --user status fecha-log.service --no-pager -l | sed -n '1,10p'
 **Salida (pega un extracto):**
 
 ```text
-× fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log
-     Loaded: loaded (/home/dam/.config/systemd/user/fecha-log.service; static)
-     Active: failed (Result: exit-code) since Tue 2025-09-23 18:26:55 WEST; 6s ago
-   Duration: 1ms
-    Process: 36250 ExecStart=/home/dam/dam/bin/fecha_log.sh (code=exited, status=203/EXEC)
-   Main PID: 36250 (code=exited, status=203/EXEC)
-        CPU: 1ms
+○ fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log
+     Loaded: loaded (/home/eduglezexp/.config/systemd/user/fecha-log.service; static)
+     Active: inactive (dead)
 
-sep 23 18:26:55 a108pc01 systemd[3325]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
-sep 23 18:26:55 a108pc01 (a_log.sh)[36250]: fecha-log.service: Failed to execute /home/dam/dam/bin/fecha_log.sh: Exec format error
-
+sep 24 11:15:17 eduglezexp-VirtualBox systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
 ```
 **Pregunta:** ¿Se creó/actualizó `~/dam/logs/fecha.log`? Muestra las últimas líneas:
 
@@ -201,7 +195,7 @@ tail -n 5 "$DAM/logs/fecha.log"
 **Salida:**
 
 ```text
-
+2025-09-23T18:15:17+01:00 :: hello from user timer
 ```
 
 **Reflexiona la salida:**
@@ -209,7 +203,7 @@ tail -n 5 "$DAM/logs/fecha.log"
 ```text
 
 ```
-
+El archivo fecha.log se creó y ejecutó correctamente mostrando la línea con la fecha y el mensaje.
 ---
 
 **15.** Diferencia **enable** vs **start** (modo usuario). Habilita el **timer**.
@@ -236,11 +230,13 @@ systemctl --user list-timers --all | grep fecha-log || true
 **Salida (recorta):**
 
 ```text
-
+Created symlink /home/daniel/.config/systemd/user/timers.target.wants/fecha-log.timer → /home/daniel/.config/systemd/user/fecha-log.timer.
+Wed 2025-09-23 22:29:00 WEST  49s -                                    - fecha-log.timer                fecha-log.service
 ```
 **Pregunta:** ¿Qué diferencia hay entre `enable` y `start` cuando usas `systemctl --user`?  
 
-**Respuesta:**
+**Respuesta:** start inicia el servicio o timer inmediatamente, mientras que enable configura el servicio o timer para que se inicie automáticamente esegún ciertos parámetros.
+
 
 ---
 
@@ -258,7 +254,11 @@ journalctl --user -u fecha-log.service -n 10 --no-pager
 **Pregunta:** ¿Ves ejecuciones activadas por el timer? ¿Cuándo fue la última?  
 
 **Respuesta:**
-
+sep 23 22:15:17 daniel systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
+sep 23 22:29:38 daniel systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
+sep 23 22:30:38 daniel systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
+sep 23 22:31:38 daniel systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
+sep 23 22:32:38 daniel systemd[2584]: Started fecha-log.service - Escribe fecha en $HOME/dam/logs/fecha.log.
 ---
 
 ### 2.3 — Observación de procesos sin root
@@ -329,11 +329,20 @@ top -b -n 1 | head -n 15
 **Salida (resumen):**
 
 ```text
+PID USUARIO   PR  NI    VIRT    RES    SHR S  %CPU  %MEM     HORA+ ORDEN
+3900 daniel+  20   0   17224   5740   3564 R   6,3   0,1   0:00.02 top
+   1 root      20   0   22448  13204   9236 S   0,0   0,2   0:06.80 systemd
+   2 root      20   0       0      0      0 S   0,0   0,0   0:00.08 kthreadd
+   3 root      20   0       0      0      0 S   0,0   0,0   0:00.00 pool_wo+
+   4 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 kworker+
+   5 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 kworker+
+   6 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 kworker+
+   7 root       0 -20       0      0      0 I   0,0   0,0   0:00.00 kworker+
 
 ```
 **Pregunta:** ¿Cuál es tu proceso con mayor `%CPU` en ese momento?  
 
-**Respuesta:**
+**Respuesta:** top (6,3% de la CPU).
 
 ---
 
@@ -345,14 +354,15 @@ pid=$(pgrep -u "$USER" -x sleep | head -n1)
 strace -p "$pid" -e trace=nanosleep -tt -c -f 2>&1 | sed -n '1,10p'
 ```
 
-**Salida (fragmento):**
+**Salida (fragmento):** 
 
 ```text
-
+strace: -t/--absolute-timestamps has no effect with -c/--summary-only
+strace: attach: ptrace(PTRACE_SEIZE, 3920): Operación no permitida
 ```
 **Pregunta:** Explica brevemente la syscall que observaste.  
 
-**Respuesta:**
+**Respuesta:** El strace no pudo enlazarce con proceso sleep por restricciones de permisos.
 
 ---
 
@@ -367,26 +377,60 @@ pstree -p | head -n 50
 **Salida (recorta):**
 
 ```text
-systemd(1)-+-agetty(208)
-           |-systemd(568)---(sd-pam)(570)
-           |-systemd(411)---(sd-pam)(412)
-           |-systemd-journal(3887)
-           |-systemd-logind(187)
-           |-systemd-resolve(4038)
-           |-systemd-timesyn(3935)---{systemd-timesyn}(3936)
-           |-systemd-udevd(3987)
-           |-unattended-upgr(227)---{unattended-upgr}(275)
-           `-wsl-pro-service(192)-+-{wsl-pro-service}(236)
-                                  |-{wsl-pro-service}(238)
-                                  |-{wsl-pro-service}(239)
-                                  |-{wsl-pro-service}(240)
-                                  |-{wsl-pro-service}(241)
-                                  |-{wsl-pro-service}(254)
-                                  `-{wsl-pro-service}(263)
+systemd(1)-+-ModemManager(814)-+-{ModemManager}(883)
+           |                   |-{ModemManager}(891)
+           |                   `-{ModemManager}(893)
+           |-NetworkManager(734)-+-{NetworkManager}(803)
+           |                     |-{NetworkManager}(812)
+           |                     `-{NetworkManager}(815)
+           |-VBoxClient(2755)---VBoxClient(2756)-+-{VBoxClient}(2757)
+           |                                     |-{VBoxClient}(2758)
+           |                                     `-{VBoxClient}(2759)
+           |-VBoxClient(2770)---VBoxClient(2771)-+-{VBoxClient}(2773)
+           |                                     |-{VBoxClient}(2774)
+           |                                     `-{VBoxClient}(2775)
+           |-VBoxClient(2778)---VBoxClient(2779)-+-{VBoxClient}(2786)
+           |                                     |-{VBoxClient}(2787)
+           |                                     |-{VBoxClient}(2788)
+           |                                     `-{VBoxClient}(2792)
+           |-VBoxClient(2783)---VBoxClient(2784)-+-{VBoxClient}(2789)
+           |                                     |-{VBoxClient}(2790)
+           |                                     `-{VBoxClient}(2806)
+           |-VBoxDRMClient(1929)-+-{VBoxDRMClient}(1952)
+           |                     |-{VBoxDRMClient}(1953)
+           |                     |-{VBoxDRMClient}(1954)
+           |                     `-{VBoxDRMClient}(2796)
+           |-VBoxService(1932)-+-{VBoxService}(1935)
+           |                   |-{VBoxService}(1936)
+           |                   |-{VBoxService}(1937)
+           |                   |-{VBoxService}(1940)
+           |                   |-{VBoxService}(1942)
+           |                   |-{VBoxService}(1943)
+           |                   |-{VBoxService}(1944)
+           |                   `-{VBoxService}(1945)
+           |-accounts-daemon(645)-+-{accounts-daemon}(674)
+           |                      |-{accounts-daemon}(675)
+           |                      `-{accounts-daemon}(730)
+           |-agetty(2438)
+           |-at-spi2-registr(2975)-+-{at-spi2-registr}(2986)
+           |                       |-{at-spi2-registr}(2987)
+           |                       `-{at-spi2-registr}(2989)
+           |-avahi-daemon(647)---avahi-daemon(696)
+           |-colord(2992)-+-{colord}(3011)
+           |              |-{colord}(3012)
+           |              `-{colord}(3016)
+           |-cron(649)
+           |-csd-printer(2982)-+-{csd-printer}(2996)
+           |                   |-{csd-printer}(2997)
+           |                   `-{csd-printer}(2998)
+           |-cups-browsed(1091)-+-{cups-browsed}(1114)
+           |                    |-{cups-browsed}(1115)
+           |                    `-{cups-browsed}(1116)
+           |-cupsd(1078)-+-dbus(1088)
 ```
 **Pregunta:** ¿Bajo qué proceso aparece tu `systemd --user`?  
 
-**Respuesta:** El servicio systemd --user es una instancia de systemd que se inicia para un usuario específico y aparece como un subproceso del principal systemd (PID 1).
+**Respuesta:**  No aparece directamente en el árbol mostrado, pero generalmente el systemd --user se ejecuta bajo el proceso del gestor de sesiones o del terminal que inició la sesión del usuario.
 
 ---
 
@@ -398,30 +442,35 @@ ps -eo pid,ppid,stat,cmd | head -n 20
 **Salida:**
 
 ```text
-  PID  PPID STAT CMD
-    1     0 Ss   /usr/lib/systemd/systemd --system --deserialize=53
-    2     1 Sl   /init
-    6     2 Sl   plan9 --control-socket 7 --log-level 4 --server-fd 8 --pipe-fd 10 --log-truncate
-  173     1 Ss   /usr/sbin/cron -f -P
-  174     1 Ss   @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
-  187     1 Ss   /usr/lib/systemd/systemd-logind
-  192     1 Ssl  /usr/libexec/wsl-pro-service -vv
-  208     1 Ss   /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
-  221     1 Ss+  /sbin/agetty -o -p -- \u --noclear - linux
-  227     1 Ssl  /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
-  323     2 Ss   /bin/login -f
-  411     1 Ss   /usr/lib/systemd/systemd --user --deserialize=22
-  412   411 S    (sd-pam)
-  423   323 S+   -bash
-  499     2 Ss   /init
-  502   499 S    /init
-  504   502 Ss+  sh
-  514     2 Ss   /bin/login -f
-  568     1 Ss   /usr/lib/systemd/systemd --user --deserialize=22
+PID    PPID STAT CMD
+  1       0 Ss   /sbin/init splash
+  2       0 S    [kthreadd]
+  3       2 S    [pool_workqueue_release]
+  4       2 I<   [kworker/R-rcu_gp]
+  5       2 I<   [kworker/R-sync_wq]
+  6       2 I<   [kworker/R-kvfree_rcu_reclaim]
+  7       2 I<   [kworker/R-slub_flushwq]
+  8       2 I<   [kworker/R-netns]
+  11       2 I<   [kworker/0:0H-events_highpri]
+  13       2 I<   [kworker/R-mm_percpu_wq]
+  14       2 I    [rcu_tasks_kthread]
+  15       2 I    [rcu_tasks_rude_kthread]
+  16       2 I    [rcu_tasks_trace_kthread]
+  17       2 S    [ksoftirqd/0]
+  18       2 I    [rcu_preempt]
+  19       2 S    [rcu_exp_par_gp_kthread_worker/0]
+  20       2 S    [rcu_exp_gp_kthread_worker]
+  21       2 S    [migration/0]
+  22       2 S    [idle_inject/0]
 ```
 **Pregunta:** Explica 3 flags de `STAT` que veas (ej.: `R`, `S`, `T`, `Z`, `+`).  
 
 **Respuesta:**
+
+    S: Sleeping - El proceso está inactivo, esperando un evento.
+    Ss: Interruptible Sleep - El proceso está durmiendo pero puede ser interrumpido por señales.
+    I: Idle - El proceso está inactivo, generalmente un hilo del kernel que no está haciendo nada.
+
 
 ---
 
@@ -442,12 +491,23 @@ ps -o pid,stat,cmd -p "$pid"
 ```
 **Pega los dos estados (antes/después):**
 
-```bash
+```text
+# antes
+ps -o pid,stat,cmd -p "$pid"
+[2] 3998
+    PID STAT CMD
+   3998 T    bash
 
+[2]+  Detenido                120 > sleep
+
+# despues
+ps -o pid,stat,cmd -p "$pid"
+    PID STAT CMD
+   3998 S    bash
 ```
 **Pregunta:** ¿Qué flag indicó la suspensión?  
 
-**Respuesta:**
+**Respuesta:** El flag __T__ indica que el proceso está detenido.
 
 ---
 
@@ -469,11 +529,11 @@ ps -el | grep ' Z '
 **Salida (recorta):**
 
 ```text
-
+1 Z  1000    4069    4068  0  80   0 -     0 -      pts/0    00:00:00 zombie
 ```
 **Pregunta:** ¿Por qué el estado `Z` y qué lo limpia finalmente?  
 
-**Respuesta:**
+**Respuesta:** El estado "Z" indica un proceso zombie que que será limpiado por el proceso padre cuando termine o llame a wait().
 
 ---
 
