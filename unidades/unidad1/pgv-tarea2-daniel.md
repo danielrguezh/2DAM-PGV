@@ -367,11 +367,26 @@ pstree -p | head -n 50
 **Salida (recorta):**
 
 ```text
-
+systemd(1)-+-agetty(208)
+           |-systemd(568)---(sd-pam)(570)
+           |-systemd(411)---(sd-pam)(412)
+           |-systemd-journal(3887)
+           |-systemd-logind(187)
+           |-systemd-resolve(4038)
+           |-systemd-timesyn(3935)---{systemd-timesyn}(3936)
+           |-systemd-udevd(3987)
+           |-unattended-upgr(227)---{unattended-upgr}(275)
+           `-wsl-pro-service(192)-+-{wsl-pro-service}(236)
+                                  |-{wsl-pro-service}(238)
+                                  |-{wsl-pro-service}(239)
+                                  |-{wsl-pro-service}(240)
+                                  |-{wsl-pro-service}(241)
+                                  |-{wsl-pro-service}(254)
+                                  `-{wsl-pro-service}(263)
 ```
 **Pregunta:** ¿Bajo qué proceso aparece tu `systemd --user`?  
 
-**Respuesta:**
+**Respuesta:** El servicio systemd --user es una instancia de systemd que se inicia para un usuario específico y aparece como un subproceso del principal systemd (PID 1).
 
 ---
 
@@ -383,7 +398,26 @@ ps -eo pid,ppid,stat,cmd | head -n 20
 **Salida:**
 
 ```text
-
+  PID  PPID STAT CMD
+    1     0 Ss   /usr/lib/systemd/systemd --system --deserialize=53
+    2     1 Sl   /init
+    6     2 Sl   plan9 --control-socket 7 --log-level 4 --server-fd 8 --pipe-fd 10 --log-truncate
+  173     1 Ss   /usr/sbin/cron -f -P
+  174     1 Ss   @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+  187     1 Ss   /usr/lib/systemd/systemd-logind
+  192     1 Ssl  /usr/libexec/wsl-pro-service -vv
+  208     1 Ss   /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
+  221     1 Ss+  /sbin/agetty -o -p -- \u --noclear - linux
+  227     1 Ssl  /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+  323     2 Ss   /bin/login -f
+  411     1 Ss   /usr/lib/systemd/systemd --user --deserialize=22
+  412   411 S    (sd-pam)
+  423   323 S+   -bash
+  499     2 Ss   /init
+  502   499 S    /init
+  504   502 Ss+  sh
+  514     2 Ss   /bin/login -f
+  568     1 Ss   /usr/lib/systemd/systemd --user --deserialize=22
 ```
 **Pregunta:** Explica 3 flags de `STAT` que veas (ej.: `R`, `S`, `T`, `Z`, `+`).  
 
@@ -408,7 +442,7 @@ ps -o pid,stat,cmd -p "$pid"
 ```
 **Pega los dos estados (antes/después):**
 
-```text
+```bash
 
 ```
 **Pregunta:** ¿Qué flag indicó la suspensión?  
