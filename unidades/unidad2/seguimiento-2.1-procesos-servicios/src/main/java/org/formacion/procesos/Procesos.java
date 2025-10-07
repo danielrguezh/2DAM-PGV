@@ -48,6 +48,7 @@ public class Procesos {
     /**
      * Funcion para mostrar cuantas lineas tiene un archivo, si hay mas de 3 procesos,
      * imprime la frase "¡Cuidado, muchos procesos de Java activos!"
+     * @nombreArchivo
      */
     private void mostrarNumeroLineasArchivo(String nombreArchivo) {
         try {
