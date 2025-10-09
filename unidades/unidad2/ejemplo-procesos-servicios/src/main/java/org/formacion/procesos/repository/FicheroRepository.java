@@ -1,9 +1,10 @@
 package org.formacion.procesos.repository;
 
+import org.formacion.procesos.repository.interfaces.IAlmacenamientoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository("FicheroRepository")
-public class FicheroRepository implements IFicheroRepository{
+public class FicheroRepository implements IAlmacenamientoRepository{
 
     @Override
     public String saludar() {
