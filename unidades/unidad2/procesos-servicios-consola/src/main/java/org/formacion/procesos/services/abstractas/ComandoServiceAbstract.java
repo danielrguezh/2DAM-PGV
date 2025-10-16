@@ -3,6 +3,7 @@ package org.formacion.procesos.services.abstractas;
 import java.util.List;
 
 import org.formacion.procesos.domain.ProcessType;
+import org.formacion.procesos.repositories.CrudInterface;
 import org.formacion.procesos.repositories.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +13,7 @@ public abstract class ComandoServiceAbstract {
     ProcessType tipo;
 
     @Autowired
-    FileRepository fileRepository;
+    CrudInterface fileRepository;
 
     public String getComando() {
         return comando;
