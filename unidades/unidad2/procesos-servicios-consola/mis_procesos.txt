@@ -1,5 +1,6 @@
-mis_procesos.txt
-pom.xml
-README.md
-src
-target
+    PID TTY          TIME CMD
+  26010 pts/1    00:00:00 bash
+  26338 pts/1    00:00:08 java
+  26433 pts/1    00:00:01 java
+  26521 pts/1    00:00:00 sh
+  26522 pts/1    00:00:00 ps

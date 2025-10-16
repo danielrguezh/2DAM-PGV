@@ -1,19 +1,19 @@
-package org.formacion.procesos.servicios;
+package org.formacion.procesos.controllers;
 
 import java.util.Scanner;
 
-import org.formacion.procesos.controller.ComandoControllerLS;
-import org.formacion.procesos.controller.ComandoControllerPS;
+import org.formacion.procesos.services.ComandoLsService;
+import org.formacion.procesos.services.ComandoPsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RunnerService {
+public class RunnerController {
     @Autowired
-    ComandoControllerPS comandoControllerPS;
+    ComandoPsService comandoControllerPS;
 
     @Autowired
-    ComandoControllerLS comandoControllerls;
+    ComandoLsService comandoControllerls;
 
     public void menuConsola() {
         Scanner scanner = new Scanner(System.in);
