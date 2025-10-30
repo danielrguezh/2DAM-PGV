@@ -1,6 +1,6 @@
-    PID TTY          TIME CMD
-  26010 pts/1    00:00:00 bash
-  26338 pts/1    00:00:08 java
-  26433 pts/1    00:00:01 java
-  26521 pts/1    00:00:00 sh
-  26522 pts/1    00:00:00 ps
+total 16
+-rw-r--r-- 1 dam dam    0 oct 21 16:51 mis_procesos.txt
+-rw-r--r-- 1 dam dam 1942 oct 14 16:02 pom.xml
+-rw-r--r-- 1 dam dam 1490 oct  7 15:32 README.md
+drwxr-xr-x 4 dam dam 4096 sep 30 16:13 src
+drwxrwxr-x 7 dam dam 4096 oct 21 16:50 target

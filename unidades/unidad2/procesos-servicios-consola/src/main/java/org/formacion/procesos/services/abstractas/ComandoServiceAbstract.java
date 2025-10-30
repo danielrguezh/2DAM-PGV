@@ -1,19 +1,19 @@
 package org.formacion.procesos.services.abstractas;
 
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.formacion.procesos.domain.ProcessType;
-import org.formacion.procesos.repositories.CrudInterface;
-import org.formacion.procesos.repositories.FileRepository;
+import org.formacion.procesos.repositories.interfaces.CrudInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class ComandoServiceAbstract {
-    String comando;
-    List<String> parametros;
-    ProcessType tipo;
+    private String comando;
+    private ProcessType tipo;
+    private String validacion;
 
     @Autowired
-    CrudInterface fileRepository;
+    CrudInterface crudInterface;
 
     public String getComando() {
         return comando;
@@ -23,67 +23,81 @@ public abstract class ComandoServiceAbstract {
         this.comando = comando;
     }
 
-    public List getParametros() {
-        return parametros;
-    }
-
-    public void setParametros(List parametros) {
-        this.parametros = parametros;
-    }
-
-
-    public void procesarLinea(String linea){
-        String[] arrayComando = linea.split(" ");
-        this.setComando(arrayComando[0]);
-        if (!validar(arrayComando)) {
-            System.out.println("Comando invalido");
-            return;
-        }
-        Process proceso;
-        try{
-            proceso = new ProcessBuilder("sh", "-c", linea+ " > mis_procesos.txt").start();
-           ejecutarProceso(proceso);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        imprimeMensaje();
-    }
-
-
-    public boolean ejecutarProceso(Process proceso){
-        try{
-            proceso.waitFor();
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-
     public ProcessType getTipo() {
-        return this.tipo;
+        return tipo;
     }
 
-    public String getTipoString() {
-        if (tipo==null) {
+    public String getTipoToString() {
+        if (tipo == null) {
             return null;
         }
-        return this.toString();
+        return tipo.toString();
     }
 
     public void setTipo(ProcessType tipo) {
         this.tipo = tipo;
     }
 
-    public abstract void imprimeMensaje();
+    public String getValidacion() {
+        return validacion;
+    }
 
-    public boolean validarComando(){
-        if (!this.getComando().toUpperCase().equals(getTipoString())) {
-            System.out.println("Comando invalido");
+    public void setValidacion(String validacion) {
+        this.validacion = validacion;
+    }
+
+    public CrudInterface getCrudInterface() {
+        return crudInterface;
+    }
+
+    public void setCrudInterface(CrudInterface crudInterface) {
+        this.crudInterface = crudInterface;
+    }
+
+    public void procesarLinea(String linea) {
+        String[] arrayComando = linea.split("\s*");
+        this.setComando(arrayComando[0]);
+        if (!validar(arrayComando)) {
+            System.out.println("El comando es invalido");
+            return;
+        }
+        try {
+            Process proceso = new ProcessBuilder("sh", "-c", linea + " > mis_procesos.txt")
+            .start();
+            ejecutarProceso(proceso);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean ejecutarProceso(Process proceso) {
+        try {
+            proceso.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean validar(String[] arrayComando) {
+        if (!validarComando()) {
+            return false;
+        }
+        String parametro = arrayComando[1];
+        Pattern pattern = Pattern.compile(validacion);
+        Matcher matcher = pattern.matcher(parametro);
+        if (!matcher.find()) {
+            System.out.println("No cumple");
             return false;
         }
         return true;
     }
 
-    public abstract boolean validar(String[] arrayComando);
+    public boolean validarComando() {
+        if (!this.getComando().toUpperCase().equals(getTipoToString())) {
+            System.out.println("El comando es invalido");
+            return false;
+        }
+        return true;
+    }
 }

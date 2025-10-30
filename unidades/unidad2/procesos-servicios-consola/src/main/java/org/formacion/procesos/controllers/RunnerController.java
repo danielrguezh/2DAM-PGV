@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RunnerController {
-    @Autowired
-    ComandoPsService comandoControllerPS;
 
     @Autowired
-    ComandoLsService comandoControllerls;
+    ComandoPsService comandoPsController;
+
+    @Autowired
+    ComandoLsService comandoLsController;
 
     public void menuConsola() {
         Scanner scanner = new Scanner(System.in);
@@ -23,16 +24,11 @@ public class RunnerController {
                 "  run LIST_DIR path=.\n" +
                 "  run HASH_SHA256 file=README.md\n" +
                 "  help | os | exit\n");
-          String linea = scanner.nextLine();
-
-          if(linea.toUpperCase().startsWith("PS")){
-            comandoControllerPS.procesarLinea(linea);
-         }else{
-            comandoControllerls.procesarLinea(linea);
-         }
-
-
-
+        String linea = scanner.nextLine();
+        if (linea.toUpperCase().startsWith("PS")) {
+            comandoPsController.procesarLinea(linea);
+        }
+        comandoLsController.procesarLinea(linea);
     }
 
     private void helpConsola() {
@@ -42,5 +38,4 @@ public class RunnerController {
                         "run LIST_DIR path=.\n" +
                         "run HASH_SHA256 file=README.md timeoutMs=5000\n");
     }
-
 }

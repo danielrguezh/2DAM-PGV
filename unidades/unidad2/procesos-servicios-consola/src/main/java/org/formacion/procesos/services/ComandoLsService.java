@@ -5,23 +5,10 @@ import org.formacion.procesos.services.abstractas.ComandoServiceAbstract;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ComandoLsService extends ComandoServiceAbstract {
-    public ComandoLsService(){
+public class ComandoLsService extends ComandoServiceAbstract{
+
+    public ComandoLsService() {
         this.setTipo(ProcessType.LS);
+        this.setValidacion("^(\s*|(-(la|l|a)))$");
     }
-
-    @Override
-    public void imprimeMensaje() {
-        System.out.println("Estoy llamando a ComandoCtrollerLS.java");
-    }
-
-    @Override
-    public boolean validar(String[] arrayComando) {
-        if (!super.validarComando()){
-            return false;
-        }
-        String parametro= arrayComando[1];
-        return true;
-    }
-    
 }
