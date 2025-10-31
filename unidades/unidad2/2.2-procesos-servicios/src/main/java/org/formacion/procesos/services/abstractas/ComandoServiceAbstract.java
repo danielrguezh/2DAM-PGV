@@ -1,3 +1,4 @@
+
 package org.formacion.procesos.services.abstractas;
 
 import java.io.BufferedReader;
@@ -25,8 +26,9 @@ public abstract class ComandoServiceAbstract {
     private String validacion;
     private IJobRepository fileRepository;
 
-    //getters/setters
-
+    /**
+     * Getters and Setters
+     */
     public IJobRepository getFileRepository() {
         return fileRepository;
     }
@@ -125,16 +127,13 @@ public abstract class ComandoServiceAbstract {
     }
 
     /**
-     * Metodo para validar el parametro agregado al comando
+     * Metodo para validar si el parametro añadido al comando es valido o no
      * @param arrayComando a comprobar
      * @return true/false
      */
     public boolean validar(String[] arrayComando) {
         if (!validarComando()) {
             return false;
-        }
-        if (arrayComando.length -1 == 0) {
-            return true;
         }
         String parametro = arrayComando[1];
         Pattern pattern = Pattern.compile(validacion);
@@ -143,12 +142,11 @@ public abstract class ComandoServiceAbstract {
             System.out.println("No cumple");
             return false;
         }
-
         return true;
     }
 
     /**
-     * Metodo para validar el comando
+     * Metodo para validar si el comando es valido o no
      * @return true/false
      */
     public boolean validarComando() {
@@ -156,7 +154,6 @@ public abstract class ComandoServiceAbstract {
             System.out.println("El comando es invalido");
             return false;
         }
-        
         return true;
     }
 }
