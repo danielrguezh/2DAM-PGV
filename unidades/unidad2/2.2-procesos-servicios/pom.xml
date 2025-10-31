@@ -42,7 +42,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>org.formacion.procesos.ProcesosServiciosApplication</mainClass>
+          <mainClass>org.formacion.procesos.ProcesosCliApplication</mainClass>
         </configuration>
       </plugin>
       <plugin>

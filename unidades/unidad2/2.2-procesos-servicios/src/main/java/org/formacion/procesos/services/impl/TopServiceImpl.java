@@ -17,6 +17,6 @@ public class TopServiceImpl extends ComandoServiceAbstract {
      */
     public TopServiceImpl() {
         this.setTipo(Job.TOP);
-        this.setValidacion("^(\\s*|(-?()))$");
+        this.setValidacion("^(\\s*|(-?(b)))$");
     }
 }
