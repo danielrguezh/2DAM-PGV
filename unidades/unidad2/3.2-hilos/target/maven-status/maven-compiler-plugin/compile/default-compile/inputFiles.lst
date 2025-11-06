@@ -1,0 +1,13 @@
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/Main.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/model/Note.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/INoteRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/ServiceNoteAbstract.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/file/FileNoteAbstractRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/file/FileNoteJsonRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/file/FileNoteRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/file/FileNoteXmlRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/jpa/ISqliteNoteRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/repo/jpa/NoteJpaRepository.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/service/IServiceNote.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/service/JsonServiceNote.java
+/home/dam/Escritorio/2DAM-AED/unidades/spring-data-orm/src/main/java/com/docencia/service/XmlServiceNote.java
