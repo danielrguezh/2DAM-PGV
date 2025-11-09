@@ -20,11 +20,9 @@ public class BatallaPokemonTest {
 
         String salida = salidaCapturada.toString();
 
-        assertTrue(salida.contains("ha ganado la batalla!"),
-                "Debe aparecer mensaje de victoria");
+        assertTrue(salida.contains("ha ganado la batalla!"),"Debe aparecer mensaje de victoria");
         assertTrue(juego.isJuegoTerminado(), "El juego debe haber terminado");
-        assertTrue(juego.getHpPikachu() <= 0 || juego.getHpCharmander() <= 0,
-                "Al menos uno debe tener HP <= 0");
+        assertTrue(juego.getHpPikachu() <= 0 || juego.getHpCharmander() <= 0, "Al menos uno debe tener HP <= 0");
     }
 }
 

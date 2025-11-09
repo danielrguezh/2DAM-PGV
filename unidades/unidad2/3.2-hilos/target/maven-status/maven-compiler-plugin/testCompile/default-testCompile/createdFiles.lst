@@ -1,3 +1,10 @@
-com/docencia/repo/FileNoteRepositoryTest.class
-com/docencia/service/XmlServiceNoteTest.class
-com/docencia/service/JsonServiceNoteTest.class
+com\docencia\ejercicios\QuidditchTest.class
+com\docencia\ejercicios\FabricaDroidsTest.class
+com\docencia\ejemplo\SaiyanRaceTest.class
+com\docencia\ejercicios\CazaHorrocruxesTest.class
+com\docencia\ejercicios\BatallaMagosTest.class
+com\docencia\ejercicios\ExploradoresJediTest.class
+com\docencia\ejercicios\MilleniumFalconTest.class
+com\docencia\ejercicios\BatallaPokemonTest.class
+com\docencia\ejercicios\CiudadEnPeligroTest.class
+com\docencia\ejercicios\TardisTest.class

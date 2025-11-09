@@ -24,7 +24,6 @@ public class CazaHorrocruxes {
             }
 
             if (!encontrado.get()) {
-                // Sincronizamos para asegurar que solo uno gana
                 synchronized (this) {
                     if (!encontrado.get()) {
                         encontrado.set(true);
@@ -54,7 +53,7 @@ public class CazaHorrocruxes {
         }
     }
 
-    // Getters para el test
+    // Getters
     public boolean isEncontrado() {
         return encontrado.get();
     }
@@ -62,4 +61,5 @@ public class CazaHorrocruxes {
     public String getGanador() {
         return ganador.get();
     }
+    
 }

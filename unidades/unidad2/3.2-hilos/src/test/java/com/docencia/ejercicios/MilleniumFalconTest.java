@@ -23,8 +23,6 @@ class MilleniumFalconTest {
         boolean destruida = salida.contains("se destruye");
         boolean escapan = salida.contains("escapan");
 
-        // Debe ser exactamente uno de los dos
-        assertTrue(destruida ^ escapan, 
-            "La salida debe indicar destrucción o escape, pero no ambos. Salida:\n" + salida);
+        assertTrue(destruida ^ escapan, "La salida debe indicar destrucción o escape, pero no ambos. Salida:\n" + salida);
     }
 }

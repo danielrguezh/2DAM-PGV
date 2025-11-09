@@ -20,17 +20,9 @@ class BatallaMagosTest {
 
         String salida = output.toString();
 
-        // Debe haber un ganador
-        assertTrue(salida.contains("gana la batalla mágica."),
-                "Debe anunciar un ganador.");
-
-        // El combate debe haber terminado
-        assertTrue(b.isCombateTerminado(),
-                "El combate debe marcarse como terminado.");
-
-        // Al menos uno debe haber quedado sin energía
-        assertTrue(b.getEnergiaGandalf() <= 0 || b.getEnergiaSaruman() <= 0,
-                "Uno de los magos debe tener energía <= 0.");
+        assertTrue(salida.contains("gana la batalla mágica."),"Debe anunciar un ganador.");
+        assertTrue(b.isCombateTerminado(),"El combate debe marcarse como terminado.");
+        assertTrue(b.getEnergiaGandalf() <= 0 || b.getEnergiaSaruman() <= 0, "Uno de los magos debe tener energía <= 0.");
     }
 }
 

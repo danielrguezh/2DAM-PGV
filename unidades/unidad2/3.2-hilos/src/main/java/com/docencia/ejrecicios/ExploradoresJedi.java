@@ -45,6 +45,7 @@ public class ExploradoresJedi {
         }
     }
 
+    // Getters
     public boolean isPistaEncontrada() {
         return pistaEncontrada.get();
     }

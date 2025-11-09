@@ -44,7 +44,6 @@ public class MilleniumFalcon {
         }
     };
 
-    // === Método principal ===
     public void main() {
         inicio = System.currentTimeMillis();
         Thread t1 = new Thread(HanSolo);

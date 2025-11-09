@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BatallaPokemon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ficheros-jackson</a> &gt; <a href="index.source.html" class="el_package">com.docencia.ejrecicios</a> &gt; <span class="el_source">BatallaPokemon.java</span></div><h1>BatallaPokemon.java</h1><pre class="source lang-java linenums">package com.docencia.ejrecicios;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * @author danielrguezh
+ * @version 1.0.0
+ */
+<span class="fc" id="L13">public class BatallaPokemon {</span>
+
+<span class="fc" id="L15">    private final AtomicBoolean juegoTerminado = new AtomicBoolean(false);</span>
+<span class="fc" id="L16">    private int hpPikachu = 100;</span>
+<span class="fc" id="L17">    private int hpCharmander = 100;</span>
+<span class="fc" id="L18">    private String turno = &quot;Pikachu&quot;;</span>
+
+<span class="fc" id="L20">    private final Lock m = new ReentrantLock();</span>
+<span class="fc" id="L21">    private final Condition turnoCambio = m.newCondition();</span>
+
+    private void atacar(String atacante, boolean esPikachu) {
+<span class="fc" id="L24">        int daño = ThreadLocalRandom.current().nextInt(5, 21);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (esPikachu) {</span>
+<span class="fc" id="L26">            hpCharmander -= daño;</span>
+<span class="fc" id="L27">            System.out.println(atacante + &quot; ataca con &quot; + daño + &quot; de daño. HP rival: &quot; + hpCharmander);</span>
+<span class="pc bpc" id="L28" title="3 of 4 branches missed.">            if (hpCharmander &lt;= 0 &amp;&amp; !juegoTerminado.get()) {</span>
+<span class="nc" id="L29">                juegoTerminado.set(true);</span>
+<span class="nc" id="L30">                System.out.println(atacante + &quot; ha ganado la batalla!&quot;);</span>
+            }
+        } else {
+<span class="fc" id="L33">            hpPikachu -= daño;</span>
+<span class="fc" id="L34">            System.out.println(atacante + &quot; ataca con &quot; + daño + &quot; de daño. HP rival: &quot; + hpPikachu);</span>
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">            if (hpPikachu &lt;= 0 &amp;&amp; !juegoTerminado.get()) {</span>
+<span class="fc" id="L36">                juegoTerminado.set(true);</span>
+<span class="fc" id="L37">                System.out.println(atacante + &quot; ha ganado la batalla!&quot;);</span>
+            }
+        }
+
+        try {
+<span class="fc" id="L42">            Thread.sleep(ThreadLocalRandom.current().nextInt(200, 601));</span>
+<span class="nc" id="L43">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L44">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L45">        }</span>
+<span class="fc" id="L46">    }</span>
+
+<span class="fc" id="L48">    private final Runnable hiloPikachu = () -&gt; {</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        while (!juegoTerminado.get()) {</span>
+<span class="fc" id="L50">            m.lock();</span>
+            try {
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">                while (!&quot;Pikachu&quot;.equals(turno) &amp;&amp; !juegoTerminado.get()) {</span>
+<span class="fc" id="L53">                    turnoCambio.await();</span>
+                }
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                if (juegoTerminado.get()) break;</span>
+<span class="fc" id="L56">                atacar(&quot;Pikachu&quot;, true);</span>
+<span class="fc" id="L57">                turno = &quot;Charmander&quot;;</span>
+<span class="fc" id="L58">                turnoCambio.signal();</span>
+<span class="nc" id="L59">            } catch (InterruptedException e) {</span>
+<span class="nc" id="L60">                Thread.currentThread().interrupt();</span>
+                break;
+            } finally {
+<span class="fc" id="L63">                m.unlock();</span>
+<span class="fc" id="L64">            }</span>
+        }
+<span class="fc" id="L66">    };</span>
+
+<span class="fc" id="L68">    private final Runnable hiloCharmander = () -&gt; {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        while (!juegoTerminado.get()) {</span>
+<span class="fc" id="L70">            m.lock();</span>
+            try {
+<span class="pc bpc" id="L72" title="1 of 4 branches missed.">                while (!&quot;Charmander&quot;.equals(turno) &amp;&amp; !juegoTerminado.get()) {</span>
+<span class="fc" id="L73">                    turnoCambio.await();</span>
+                }
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                if (juegoTerminado.get()) break;</span>
+<span class="fc" id="L76">                atacar(&quot;Charmander&quot;, false);</span>
+<span class="fc" id="L77">                turno = &quot;Pikachu&quot;;</span>
+<span class="fc" id="L78">                turnoCambio.signal();</span>
+<span class="nc" id="L79">            } catch (InterruptedException e) {</span>
+<span class="nc" id="L80">                Thread.currentThread().interrupt();</span>
+                break;
+            } finally {
+<span class="fc" id="L83">                m.unlock();</span>
+<span class="fc" id="L84">            }</span>
+        }
+<span class="fc" id="L86">    };</span>
+
+    public void main() {
+<span class="fc" id="L89">        Thread t1 = new Thread(hiloPikachu);</span>
+<span class="fc" id="L90">        Thread t2 = new Thread(hiloCharmander);</span>
+<span class="fc" id="L91">        t1.start();</span>
+<span class="fc" id="L92">        t2.start();</span>
+        try {
+<span class="fc" id="L94">            t1.join();</span>
+<span class="fc" id="L95">            t2.join();</span>
+<span class="nc" id="L96">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L97">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L98">        }</span>
+<span class="fc" id="L99">    }</span>
+    public static void main(String[] args) {
+        
+<span class="nc" id="L102">    }</span>
+
+    // Getters
+    public boolean isJuegoTerminado() {
+<span class="fc" id="L106">        return juegoTerminado.get();</span>
+    }
+
+    public int getHpPikachu() {
+<span class="fc" id="L110">        return hpPikachu;</span>
+    }
+
+    public int getHpCharmander() {
+<span class="nc" id="L114">        return hpCharmander;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

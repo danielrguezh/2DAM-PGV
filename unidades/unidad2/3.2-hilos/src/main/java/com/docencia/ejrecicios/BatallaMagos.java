@@ -45,10 +45,10 @@ public class BatallaMagos {
             synchronized (lock) {
                 if (!combateTerminado) lanzarHechizo("Saruman", false);
             }
-            dormir(random.nextInt(401) + 200);
+            dormir(random.nextInt(401) + 200); // [200,600] ms
         }
     };
-    
+
     public void main() {
         Thread t1 = new Thread(Gandalf);
         Thread t2 = new Thread(Saruman);
@@ -71,7 +71,7 @@ public class BatallaMagos {
         }
     }
 
-    // === Getters para el test ===
+    //Getters
     public boolean isCombateTerminado() { return combateTerminado; }
     public int getEnergiaGandalf() { return energiaGandalf; }
     public int getEnergiaSaruman() { return energiaSaruman; }

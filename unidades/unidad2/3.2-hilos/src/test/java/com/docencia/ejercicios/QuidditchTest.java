@@ -20,9 +20,7 @@ public class QuidditchTest {
 
         String salida = salidaCapturada.toString();
 
-        assertTrue(salida.contains("¡Snitch dorada atrapada!"),
-                "Debe aparecer mensaje de que la snitch fue atrapada");
-        assertTrue(salida.contains("Marcador final:"),
-                "Debe imprimirse el marcador final");
+        assertTrue(salida.contains("¡Snitch dorada atrapada!"),"Debe aparecer mensaje de que la snitch fue atrapada");
+        assertTrue(salida.contains("Marcador final:"),"Debe imprimirse el marcador final");
     }
 }

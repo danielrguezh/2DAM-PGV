@@ -90,7 +90,7 @@ public class Quidditch {
         System.out.println("Marcador final: A=" + puntosEquipoA + " B=" + puntosEquipoB);
     }
 
-    // Getters para posibles pruebas adicionales
+    // Getters
     public boolean isSnitchAtrapada() {
         return snitchAtrapada.get();
     }

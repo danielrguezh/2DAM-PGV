@@ -101,7 +101,7 @@ public class BatallaPokemon {
         
     }
 
-    // Getters para el test
+    // Getters
     public boolean isJuegoTerminado() {
         return juegoTerminado.get();
     }

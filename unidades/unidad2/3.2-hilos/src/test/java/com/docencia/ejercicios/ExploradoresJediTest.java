@@ -12,7 +12,6 @@ public class ExploradoresJediTest {
 
     @Test
     void ExploradoresJediUnSoloGanador() {
-        // Capturar salida estándar
         ByteArrayOutputStream salidaCapturada = new ByteArrayOutputStream();
         System.setOut(new PrintStream(salidaCapturada));
 

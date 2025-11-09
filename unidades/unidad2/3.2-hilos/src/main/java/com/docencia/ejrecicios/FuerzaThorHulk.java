@@ -77,6 +77,7 @@ public class FuerzaThorHulk {
         }
     }
 
+    //Getters
     public boolean isTiempoTerminado() {
         return tiempoTerminado.get();
     }

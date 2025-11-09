@@ -12,7 +12,6 @@ public class CiudadEnPeligroTest {
 
     @Test
     void CiudadEnPeligroSoloNeutralizaElOtroSeDetiene() {
-        // Capturar salida estándar
         ByteArrayOutputStream salidaCapturada = new ByteArrayOutputStream();
         System.setOut(new PrintStream(salidaCapturada));
 

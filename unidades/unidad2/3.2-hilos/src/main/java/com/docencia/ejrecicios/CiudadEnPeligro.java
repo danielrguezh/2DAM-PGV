@@ -74,7 +74,7 @@ public class CiudadEnPeligro {
         }
     }
 
-    // Getters para el test
+    // Getters
     public boolean isAmenazaNeutralizada() {
         return amenazaNeutralizada.get();
     }

@@ -52,6 +52,8 @@ public class Tardis {
         }
     }
 
+    // Getters
+
     public boolean isDestinoAlcanzado() {
         return destinoAlcanzado.get();
     }

@@ -63,7 +63,7 @@ public class FabricaDroids {
         }
     }
 
-    // Getters para el test
+    // Getters
     public int getN() {
         return N;
     }
