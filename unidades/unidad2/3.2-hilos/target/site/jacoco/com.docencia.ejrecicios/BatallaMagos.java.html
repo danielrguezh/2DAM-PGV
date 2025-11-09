@@ -16,17 +16,17 @@ import java.util.Random;
 <span class="fc" id="L16">            energiaSaruman -= daño;</span>
 <span class="fc" id="L17">            System.out.println(atacante + &quot; lanza hechizo por &quot; + daño +</span>
                     &quot;. Energía rival: &quot; + energiaSaruman);
-<span class="pc bpc" id="L19" title="3 of 4 branches missed.">            if (energiaSaruman &lt;= 0 &amp;&amp; !combateTerminado) {</span>
-<span class="nc" id="L20">                combateTerminado = true;</span>
-<span class="nc" id="L21">                System.out.println(atacante + &quot; gana la batalla mágica.&quot;);</span>
+<span class="pc bpc" id="L19" title="1 of 4 branches missed.">            if (energiaSaruman &lt;= 0 &amp;&amp; !combateTerminado) {</span>
+<span class="fc" id="L20">                combateTerminado = true;</span>
+<span class="fc" id="L21">                System.out.println(atacante + &quot; gana la batalla mágica.&quot;);</span>
             }
         } else {
 <span class="fc" id="L24">            energiaGandalf -= daño;</span>
 <span class="fc" id="L25">            System.out.println(atacante + &quot; lanza hechizo por &quot; + daño +</span>
                     &quot;. Energía rival: &quot; + energiaGandalf);
-<span class="pc bpc" id="L27" title="1 of 4 branches missed.">            if (energiaGandalf &lt;= 0 &amp;&amp; !combateTerminado) {</span>
-<span class="fc" id="L28">                combateTerminado = true;</span>
-<span class="fc" id="L29">                System.out.println(atacante + &quot; gana la batalla mágica.&quot;);</span>
+<span class="pc bpc" id="L27" title="3 of 4 branches missed.">            if (energiaGandalf &lt;= 0 &amp;&amp; !combateTerminado) {</span>
+<span class="nc" id="L28">                combateTerminado = true;</span>
+<span class="nc" id="L29">                System.out.println(atacante + &quot; gana la batalla mágica.&quot;);</span>
             }
         }
 <span class="fc" id="L32">    }</span>
@@ -74,6 +74,6 @@ import java.util.Random;
     //Getters
 <span class="fc" id="L75">    public boolean isCombateTerminado() { return combateTerminado; }</span>
 <span class="fc" id="L76">    public int getEnergiaGandalf() { return energiaGandalf; }</span>
-<span class="nc" id="L77">    public int getEnergiaSaruman() { return energiaSaruman; }</span>
+<span class="fc" id="L77">    public int getEnergiaSaruman() { return energiaSaruman; }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

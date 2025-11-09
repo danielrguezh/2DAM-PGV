@@ -14,8 +14,8 @@ import java.util.concurrent.atomic.AtomicReference;
 <span class="fc" id="L14">    private final AtomicReference&lt;String&gt; ganador = new AtomicReference&lt;&gt;(null);</span>
 
 <span class="fc" id="L16">    private final Runnable Superman = () -&gt; {</span>
-<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        for (String zona : zonasA) {</span>
-<span class="fc bfc" id="L18" title="All 2 branches covered.">            if (amenazaNeutralizada.get()) break;</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        for (String zona : zonasA) {</span>
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">            if (amenazaNeutralizada.get()) break;</span>
             try {
 <span class="fc" id="L20">                Thread.sleep(ThreadLocalRandom.current().nextInt(200, 501));</span>
 <span class="nc" id="L21">            } catch (InterruptedException e) {</span>
@@ -26,13 +26,13 @@ import java.util.concurrent.atomic.AtomicReference;
 <span class="fc" id="L26">        }</span>
 
 <span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (!amenazaNeutralizada.get()) {</span>
-<span class="nc" id="L29">            synchronized (this) {</span>
-<span class="nc bnc" id="L30" title="All 2 branches missed.">                if (!amenazaNeutralizada.get()) {</span>
-<span class="nc" id="L31">                    amenazaNeutralizada.set(true);</span>
-<span class="nc" id="L32">                    ganador.set(&quot;Superman&quot;);</span>
-<span class="nc" id="L33">                    System.out.println(&quot;Amenaza neutralizada por Superman&quot;);</span>
+<span class="fc" id="L29">            synchronized (this) {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">                if (!amenazaNeutralizada.get()) {</span>
+<span class="fc" id="L31">                    amenazaNeutralizada.set(true);</span>
+<span class="fc" id="L32">                    ganador.set(&quot;Superman&quot;);</span>
+<span class="fc" id="L33">                    System.out.println(&quot;Amenaza neutralizada por Superman&quot;);</span>
                 }
-<span class="nc" id="L35">            }</span>
+<span class="fc" id="L35">            }</span>
         }
 <span class="fc" id="L37">    };</span>
 
@@ -49,13 +49,13 @@ import java.util.concurrent.atomic.AtomicReference;
 <span class="fc" id="L49">        }</span>
 
 <span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (!amenazaNeutralizada.get()) {</span>
-<span class="fc" id="L52">            synchronized (this) {</span>
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">                if (!amenazaNeutralizada.get()) {</span>
-<span class="fc" id="L54">                    amenazaNeutralizada.set(true);</span>
-<span class="fc" id="L55">                    ganador.set(&quot;Batman&quot;);</span>
-<span class="fc" id="L56">                    System.out.println(&quot;Amenaza neutralizada por Batman&quot;);</span>
+<span class="nc" id="L52">            synchronized (this) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (!amenazaNeutralizada.get()) {</span>
+<span class="nc" id="L54">                    amenazaNeutralizada.set(true);</span>
+<span class="nc" id="L55">                    ganador.set(&quot;Batman&quot;);</span>
+<span class="nc" id="L56">                    System.out.println(&quot;Amenaza neutralizada por Batman&quot;);</span>
                 }
-<span class="fc" id="L58">            }</span>
+<span class="nc" id="L58">            }</span>
         }
 <span class="fc" id="L60">    };</span>
 
