@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CazaHorrocruxes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ficheros-jackson</a> &gt; <a href="index.source.html" class="el_package">com.docencia.ejrecicios</a> &gt; <span class="el_source">CazaHorrocruxes.java</span></div><h1>CazaHorrocruxes.java</h1><pre class="source lang-java linenums">package com.docencia.ejrecicios;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * @author danielrguezh
+ * @version 1.0.0
+ */
+<span class="fc" id="L11">public class CazaHorrocruxes {</span>
+
+<span class="fc" id="L13">    private final AtomicBoolean encontrado = new AtomicBoolean(false);</span>
+<span class="fc" id="L14">    private final AtomicReference&lt;String&gt; ganador = new AtomicReference&lt;&gt;(null);</span>
+
+    private Runnable Buscador(String nombre, String ubicacion) {
+<span class="fc" id="L17">        return () -&gt; {</span>
+<span class="fc" id="L18">            int tiempo = ThreadLocalRandom.current().nextInt(500, 2001);</span>
+            try {
+<span class="fc" id="L20">                Thread.sleep(tiempo);</span>
+<span class="nc" id="L21">            } catch (InterruptedException e) {</span>
+<span class="nc" id="L22">                Thread.currentThread().interrupt();</span>
+<span class="nc" id="L23">                return;</span>
+<span class="fc" id="L24">            }</span>
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (!encontrado.get()) {</span>
+<span class="fc" id="L27">                synchronized (this) {</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">                    if (!encontrado.get()) {</span>
+<span class="fc" id="L29">                        encontrado.set(true);</span>
+<span class="fc" id="L30">                        ganador.set(nombre);</span>
+<span class="fc" id="L31">                        System.out.println(nombre + &quot; encontró un Horrocrux en &quot; + ubicacion + &quot;. ¡Búsqueda terminada!&quot;);</span>
+                    }
+<span class="fc" id="L33">                }</span>
+            }
+<span class="fc" id="L35">        };</span>
+    }
+
+    public void main() {
+<span class="fc" id="L39">        Thread t1 = new Thread(Buscador(&quot;Harry&quot;, &quot;Bosque Prohibido&quot;));</span>
+<span class="fc" id="L40">        Thread t2 = new Thread(Buscador(&quot;Hermione&quot;, &quot;Biblioteca Antigua&quot;));</span>
+<span class="fc" id="L41">        Thread t3 = new Thread(Buscador(&quot;Ron&quot;, &quot;Mazmorras del castillo&quot;));</span>
+
+<span class="fc" id="L43">        t1.start();</span>
+<span class="fc" id="L44">        t2.start();</span>
+<span class="fc" id="L45">        t3.start();</span>
+
+        try {
+<span class="fc" id="L48">            t1.join();</span>
+<span class="fc" id="L49">            t2.join();</span>
+<span class="fc" id="L50">            t3.join();</span>
+<span class="nc" id="L51">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L52">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L53">        }</span>
+<span class="fc" id="L54">    }</span>
+
+    // Getters
+    public boolean isEncontrado() {
+<span class="fc" id="L58">        return encontrado.get();</span>
+    }
+
+    public String getGanador() {
+<span class="fc" id="L62">        return ganador.get();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

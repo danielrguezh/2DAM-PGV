@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MilleniumFalcon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ficheros-jackson</a> &gt; <a href="index.source.html" class="el_package">com.docencia.ejrecicios</a> &gt; <span class="el_source">MilleniumFalcon.java</span></div><h1>MilleniumFalcon.java</h1><pre class="source lang-java linenums">package com.docencia.ejrecicios;
+import java.util.Random;
+
+<span class="fc" id="L4">public class MilleniumFalcon {</span>
+
+<span class="fc" id="L6">    private volatile boolean fin = false;</span>
+<span class="fc" id="L7">    private volatile boolean destruida = false;</span>
+
+<span class="fc" id="L9">    private final int tiempoMisionMS = 4000;</span>
+    private long inicio;
+
+<span class="fc" id="L12">    private volatile int velocidad = 0;</span>
+<span class="fc" id="L13">    private volatile int escudos = 100;</span>
+
+<span class="fc" id="L15">    private final Random random = new Random();</span>
+
+<span class="fc" id="L17">    private final Runnable HanSolo = () -&gt; {</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        while (!fin) {</span>
+<span class="fc" id="L19">            velocidad += random.nextInt(11) + 5; // [5,15]</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">            if (random.nextInt(100) &lt; 5) { // 5% de probabilidad</span>
+<span class="fc" id="L21">                destruida = true;</span>
+<span class="fc" id="L22">                fin = true;</span>
+<span class="fc" id="L23">                System.out.println(&quot;Fallo de hiperimpulsor. ¡La nave se destruye!&quot;);</span>
+            }
+<span class="fc" id="L25">            dormir(150);</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            if (System.currentTimeMillis() - inicio &gt;= tiempoMisionMS) {</span>
+<span class="nc" id="L27">                fin = true;</span>
+            }
+        }
+<span class="fc" id="L30">    };</span>
+
+<span class="fc" id="L32">    private final Runnable Chewbacca = () -&gt; {</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        while (!fin) {</span>
+<span class="fc" id="L34">            escudos += random.nextInt(16) - 10; // [-10, +5]</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">            if (escudos &lt;= 0) {</span>
+<span class="nc" id="L36">                destruida = true;</span>
+<span class="nc" id="L37">                fin = true;</span>
+<span class="nc" id="L38">                System.out.println(&quot;¡Escudos agotados! ¡La nave se destruye!&quot;);</span>
+            }
+<span class="fc" id="L40">            dormir(150);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            if (System.currentTimeMillis() - inicio &gt;= tiempoMisionMS) {</span>
+<span class="nc" id="L42">                fin = true;</span>
+            }
+        }
+<span class="fc" id="L45">    };</span>
+
+    public void main() {
+<span class="fc" id="L48">        inicio = System.currentTimeMillis();</span>
+<span class="fc" id="L49">        Thread t1 = new Thread(HanSolo);</span>
+<span class="fc" id="L50">        Thread t2 = new Thread(Chewbacca);</span>
+<span class="fc" id="L51">        t1.start();</span>
+<span class="fc" id="L52">        t2.start();</span>
+
+        try {
+<span class="fc" id="L55">            t1.join();</span>
+<span class="fc" id="L56">            t2.join();</span>
+<span class="nc" id="L57">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L58">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L59">        }</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (!destruida) {</span>
+<span class="nc" id="L62">            System.out.println(&quot;¡Han y Chewie escapan! Vel=&quot; + velocidad + &quot;, Escudos=&quot; + escudos);</span>
+        }
+<span class="fc" id="L64">    }</span>
+
+    private void dormir(long ms) {
+        try {
+<span class="fc" id="L68">            Thread.sleep(ms);</span>
+<span class="nc" id="L69">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L70">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L71">        }</span>
+<span class="fc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
