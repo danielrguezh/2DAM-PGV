@@ -1,4 +1,4 @@
-package com.docencia.practica;
+package com.docencia.practica.ratasChurro;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
