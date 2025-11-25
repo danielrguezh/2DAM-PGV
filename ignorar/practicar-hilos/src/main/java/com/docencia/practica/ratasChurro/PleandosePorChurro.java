@@ -20,14 +20,18 @@ public class PleandosePorChurro {
             System.out.println(atacante+ " ataca con "+danio+ " de danio. Vida de la rata 2 = "+vidaRata2);
             if (vidaRata2 <=0 && !pelaTerminada.get()) {
                 pelaTerminada.set(true);
-                System.out.println(atacante + " ha ganado el churro");
+                System.out.println("------------------------------");
+                System.out.println("| "+atacante + " ha ganado el churro |");
+                System.out.println("------------------------------");
             }
         }else{
             vidaRata1 -= danio;
             System.out.println(atacante+ " ataca con "+danio+ " de danio. Vida de la rata 1 = "+vidaRata1);
             if (vidaRata2 <=0 && !pelaTerminada.get()) {
                 pelaTerminada.set(true);
-                System.out.println(atacante + " ha ganado el churro");
+                System.out.println("------------------------------");
+                System.out.println("| "+atacante + " ha ganado el churro |");
+                System.out.println("------------------------------");
             }
         }
 
