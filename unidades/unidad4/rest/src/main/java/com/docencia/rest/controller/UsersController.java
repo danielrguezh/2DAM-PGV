@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.docencia.rest.exception.ResourceNotFoundException;
 import com.docencia.rest.model.User;
-import com.docencia.rest.service.interfaces.UserServiceInterface;
+import com.docencia.rest.service.interfaces.IUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,10 +22,10 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1")
 public class UsersController {
 
-    private UserServiceInterface userService;
+    private IUserService userService;
 
     @Autowired
-    public void setUserRepository(UserServiceInterface userService) {
+    public void setUserRepository(IUserService userService) {
         this.userService = userService;
     }
 
