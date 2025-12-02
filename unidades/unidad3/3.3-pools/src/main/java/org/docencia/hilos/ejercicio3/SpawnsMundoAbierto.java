@@ -9,12 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author eduglezexp
+ * @author danielrguezh
  * @version 1.0.0
- */
-
-/**
- * Clase que  spawnea enemigos en mundo abierto
  */
 public class SpawnsMundoAbierto {
 

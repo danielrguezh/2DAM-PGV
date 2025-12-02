@@ -5,12 +5,8 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * @author eduglezexp
+ * @author danielrguezh
  * @version 1.0.0
- */
-
-/**
- * Clase calculadora de danio critico
  */
 public class CalculadoraDanoCritico {
 

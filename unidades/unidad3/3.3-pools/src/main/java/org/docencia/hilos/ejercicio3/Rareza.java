@@ -1,5 +1,9 @@
 package org.docencia.hilos.ejercicio3;
 
+/**
+ * @author danielrguezh
+ * @version 1.0.0
+ */
 public enum Rareza {
     COMUN("Común", 60.0),
     POCO_COMUN("Poco Común", 25.0),

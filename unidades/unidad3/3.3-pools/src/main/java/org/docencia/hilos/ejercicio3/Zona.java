@@ -3,12 +3,8 @@ package org.docencia.hilos.ejercicio3;
 import java.util.Random;
 
 /**
- * @author eduglezexp
+ * @author danielrguezh
  * @version 1.0.0
- */
-
-/**
- * Enum para las diferentes zonas del mundo abierto
  */
 public enum Zona {
     BOSQUE_MALDITO("Bosque Maldito"),

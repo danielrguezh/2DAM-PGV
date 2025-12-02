@@ -4,12 +4,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @author eduglezexp
+ * @author danielrguezh
  * @version 1.0.0
- */
-
-/**
- * Enum para los diferentes tipos de enemigos
  */
 public enum TipoEnemigo {
     SLIME_MUTANTE("Slime Mutante", Rareza.COMUN, 10),

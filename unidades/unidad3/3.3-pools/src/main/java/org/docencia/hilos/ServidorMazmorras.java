@@ -5,12 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author eduglezexp
+ * @author danielrguezh
  * @version 1.0.0
- */
-
-/**
- * Clase que simula un servidor de mazmorras
  */
 public class ServidorMazmorras {
 
