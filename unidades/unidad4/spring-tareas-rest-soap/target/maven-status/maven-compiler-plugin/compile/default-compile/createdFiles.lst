@@ -1,0 +1,12 @@
+com/docencia/tareas/model/Tarea.class
+com/docencia/tareas/rest/TareaRestController$CrearTareaRequest.class
+com/docencia/tareas/config/CxfConfig.class
+com/docencia/tareas/repositories/ITareaRepository.class
+com/docencia/tareas/soap/ITareaSoapService.class
+com/docencia/tareas/service/ITareaService.class
+com/docencia/tareas/service/TareaService.class
+com/docencia/tareas/rest/TareaRestController$ActualizarTareaRequest.class
+com/docencia/tareas/repositories/TareaRepository.class
+com/docencia/tareas/rest/TareaRestController.class
+com/docencia/tareas/TareasApplication.class
+com/docencia/tareas/soap/TareaSoapService.class
