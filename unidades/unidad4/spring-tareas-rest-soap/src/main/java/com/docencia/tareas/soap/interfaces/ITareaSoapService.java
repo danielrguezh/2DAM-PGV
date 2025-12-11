@@ -1,4 +1,4 @@
-package com.docencia.tareas.soap;
+package com.docencia.tareas.soap.interfaces;
 
 import java.util.List;
 

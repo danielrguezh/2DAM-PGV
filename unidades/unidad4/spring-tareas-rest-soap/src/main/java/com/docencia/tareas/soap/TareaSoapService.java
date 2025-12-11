@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.docencia.tareas.model.Tarea;
 import com.docencia.tareas.service.ITareaService;
+import com.docencia.tareas.soap.interfaces.ITareaSoapService;
 
 import jakarta.jws.WebService;
 
@@ -13,7 +14,7 @@ import jakarta.jws.WebService;
     serviceName = "TareaService",
     portName = "TareaPort",
     targetNamespace = "http://tareas.ies.puerto.es/",
-    endpointInterface = "com.docencia.tareas.soap.ITareaSoapService"
+    endpointInterface = "com.docencia.tareas.soap.interfaces.ITareaSoapService"
 )
 @Service
 public class TareaSoapService implements ITareaSoapService{

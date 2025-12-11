@@ -1,10 +1,14 @@
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/TareasApplication.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/config/CxfConfig.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/mapper/TareaMapper.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/model/Alumno.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/model/Tarea.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repositories/ITareaRepository.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repositories/TareaRepository.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/rest/TareaRestController.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/ITareaService.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/TareaService.java
-/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/ITareaSoapService.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/AlumnoSoapService.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/TareaSoapService.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/interfaces/IAlumnoSoapService.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/interfaces/ITareaSoapService.java
