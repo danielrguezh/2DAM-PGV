@@ -6,6 +6,8 @@
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repositories/ITareaRepository.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repositories/TareaRepository.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/rest/TareaRestController.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/AlumnoService.java
+/home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/IAlumnoService.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/ITareaService.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/TareaService.java
 /home/dam/Escritorio/2DAM-PGV/unidades/unidad4/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/soap/AlumnoSoapService.java

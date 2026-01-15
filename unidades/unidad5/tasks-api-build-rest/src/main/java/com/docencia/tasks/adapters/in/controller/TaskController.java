@@ -2,18 +2,15 @@ package com.docencia.tasks.adapters.in.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.NotNull;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.docencia.tasks.adapters.in.api.TaskRequest;
 import com.docencia.tasks.adapters.in.api.TaskResponse;
-import com.docencia.tasks.business.TaskService;
+import com.docencia.tasks.adapters.mapper.TaskMapper;
+import com.docencia.tasks.business.ITaskService;
 import com.docencia.tasks.domain.model.Task;
-import com.docencia.tasks.entitys.TaskEntity;
-import com.docencia.tasks.mapper.TaskMapper;
-import com.docencia.tasks.repository.TaskRepository;
 
 import java.util.List;
 
@@ -23,46 +20,55 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
-    private final TaskService service;
-    private TaskMapper mapper;
+  private final ITaskService service;
+  private final TaskMapper mapper;
 
-    @Autowired
-    public void setMapper(TaskMapper mapper) {
-        this.mapper = mapper;
-    }
+  public TaskController(ITaskService service, TaskMapper mapper) {
+    this.service = service;
+    this.mapper = mapper;
+  }
 
-    public TaskController(TaskService service) {
-        this.service = service;
-    }
+  @GetMapping
+  @Operation(summary = "Get all tasks")
+  public List<TaskResponse> getAll() {
+    return service.getAll().stream().map(mapper::toResponse).toList();
+  }
 
-    @GetMapping
-    @Operation(summary = "Get all tasks")
-    public List<TaskEntity> getAll() {
-        return null;
-    }
+  @GetMapping("/{id}")
+  @Operation(summary = "Get task by id")
+  public ResponseEntity<TaskResponse> getById(@PathVariable Long id) {
+    return service.getById(id)
+        .map(mapper::toResponse)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
 
-    @PostMapping
-    @Operation(summary = "Create new task")
-    public TaskResponse create(@NotNull @RequestBody TaskRequest taskRequest) {
-        Task task = mapper.requestToTask(taskRequest);
-        task=service.createTask(task);
-        return mapper.taskToResponse(task);
-    }
+  @PostMapping
+  @Operation(summary = "Create task")
+  public ResponseEntity<TaskResponse> create(@RequestBody TaskRequest request) {
+    Task created = service.create(mapper.toDomain(request));
+    return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(created));
+  }
 
-    @PutMapping("/{id}")
-    @Operation(summary = "Update task")
-    public TaskEntity update(@PathVariable Long id, @RequestBody TaskEntity task) {
-        // task.setCompleted(task.isCompleted());
-        // task.setTitle(task.getTitle());
-        // task.setDescription(task.getDescription());
-        return null;
-    }
+  @PatchMapping("/{id}")
+  @Operation(summary = "Update task (partial)")
+  public ResponseEntity<TaskResponse> update(@PathVariable Long id, @RequestBody TaskRequest request) {
+    // convert request -> domain patch: completed may be null; title/desc may be null
+    Task patch = new Task();
+    patch.setTitle(request.getTitle());
+    patch.setDescription(request.getDescription());
+    patch.setCompleted(Boolean.TRUE.equals(request.getCompleted()));
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Delete task")
-    public void delete(@PathVariable Long id) {
-        // repo.deleteById(id);
-    }
+    return service.update(id, patch)
+        .map(mapper::toResponse)
+        .map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
 
-    
+  @DeleteMapping("/{id}")
+  @Operation(summary = "Delete task")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    boolean deleted = service.delete(id);
+    return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+  }
 }
