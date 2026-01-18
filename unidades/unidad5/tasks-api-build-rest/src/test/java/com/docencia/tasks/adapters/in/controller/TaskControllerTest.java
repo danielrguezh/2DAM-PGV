@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.docencia.tasks.adapters.in.api.TaskRequest;
 import com.docencia.tasks.adapters.in.api.TaskResponse;
-import com.docencia.tasks.adapters.in.controller.TaskController;
 import com.docencia.tasks.adapters.mapper.TaskMapper;
 import com.docencia.tasks.business.ITaskService;
 import com.docencia.tasks.domain.model.Task;
