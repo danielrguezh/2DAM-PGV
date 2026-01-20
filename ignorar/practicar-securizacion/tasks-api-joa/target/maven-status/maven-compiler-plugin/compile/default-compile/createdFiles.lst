@@ -1,0 +1,4 @@
+com/docencia/tasks/TasksApplication.class
+com/docencia/tasks/rest/controller/TaskController.class
+com/docencia/tasks/entitys/TaskEntity.class
+com/docencia/tasks/repository/TaskRepository.class

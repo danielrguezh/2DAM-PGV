@@ -1,0 +1,4 @@
+/home/dam/Descargas/tasks-api-main/src/main/java/com/docencia/tasks/TasksApplication.java
+/home/dam/Descargas/tasks-api-main/src/main/java/com/docencia/tasks/entitys/TaskEntity.java
+/home/dam/Descargas/tasks-api-main/src/main/java/com/docencia/tasks/repository/TaskRepository.java
+/home/dam/Descargas/tasks-api-main/src/main/java/com/docencia/tasks/rest/controller/TaskController.java
